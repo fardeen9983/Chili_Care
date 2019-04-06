@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
+import 'webview_page.dart';
 class CommunityPage extends StatefulWidget {
   @override
   _CommunityPageState createState() => _CommunityPageState();
@@ -9,11 +9,10 @@ class CommunityPage extends StatefulWidget {
 class _CommunityPageState extends State<CommunityPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: WebView(
-        javascriptMode: JavascriptMode.unrestricted,
-        initialUrl:
-            "https://console.dialogflow.com/api-client/demo/embedded/ab83511e-77ad-458d-a980-0c89120119c7",
+    return WillPopScope(
+      onWillPop: () => Navigator.pushReplacementNamed(context, "/dashboard"),
+      child: Container(
+          child: WebViewExample()
       ),
     );
   }

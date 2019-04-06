@@ -52,6 +52,7 @@ class _ScanPageState extends State<ScanPage> {
     try {
       var assets =
       await PhotosLibrary.fetchMediaWithType(PhotosLibraryMediaType.Photo);
+      print(assets);
       setState(() {
         this._assets.clear();
         this._assets.addAll(assets);
@@ -62,7 +63,7 @@ class _ScanPageState extends State<ScanPage> {
   Widget buildGridView() {
     loadAssets();
     print(_assets);
-
+    print(_status);
     return GridView.count(
       crossAxisCount: 3,
       children: List.generate(_assets.length, (index) {
@@ -80,7 +81,7 @@ class _ScanPageState extends State<ScanPage> {
     }
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => capture(context, false),
+        onPressed: () => capture(context, true),
         child: Icon(Icons.camera),
       ),
       body: Container(

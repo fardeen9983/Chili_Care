@@ -18,19 +18,9 @@ class _HistoryTileState extends State<HistoryTile> {
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         elevation: 2.0,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Image.file(widget.file),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                widget.name,
-                style: TextStyle(fontSize: 24.0),
-              ),
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.file(widget.file),
         ),
       ),
     );

@@ -9,7 +9,7 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
-
+  FirebaseUser user;
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -20,16 +20,20 @@ class _HistoryPageState extends State<HistoryPage> {
             alignment: Alignment.center,
             child: Text(
               "No data avialable",
-              style: TextStyle(fontSize: 24.0),
+              style: TextStyle(fontSize: 12.0),
             ),
           );
         } else {
-          return Container(
-              child: HistoryTile()
-          );
+          return ListView.builder(itemBuilder: null);
         }
       },
-      stream: Firestore.instance.document("").snapshots(),
+      stream: Firestore.instance.document("user/${user.uid}").snapshots(),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseAuth.instance.currentUser().then((user) => this.user = user);
   }
 }
