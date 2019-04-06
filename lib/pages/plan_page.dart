@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class PlanPage extends StatefulWidget {
   @override
@@ -8,8 +9,6 @@ class PlanPage extends StatefulWidget {
 class _PlanPageState extends State<PlanPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(),
-    );
+    return StreamBuilder(builder: (context, snapshot) => Container());
   }
 }
