@@ -11,6 +11,7 @@ class _LoginPageState extends State<LoginPage> {
   SharedPreferences prefs;
   FirebaseAuth auth;
   TextEditingController pass, mail;
+  final GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -18,12 +19,15 @@ class _LoginPageState extends State<LoginPage> {
     pass = TextEditingController();
     mail = TextEditingController();
     auth = FirebaseAuth.instance;
-    SharedPreferences.getInstance().then((prefs) => this.prefs = prefs);
+    SharedPreferences.getInstance().then((prefs) {
+      this.prefs = prefs;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: key,
       body: Container(
         color: Color.fromRGBO(207, 232, 222, 100),
         child: Padding(
@@ -96,9 +100,10 @@ class _LoginPageState extends State<LoginPage> {
               FlatButton(
                 onPressed: () {
                   if (mail.text.isNotEmpty && pass.text.isNotEmpty)
-                    signIn();
+                    signIn(mail.text, pass.text);
                   else {
-                    signIn();
+                    key.currentState.showSnackBar(
+                        SnackBar(content: Text("Please Enter all the fields")));
                   }
                 },
                 child: Padding(
@@ -125,7 +130,14 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void signIn() {
-    Navigator.pushReplacementNamed(context, "/dashboard");
+  void signIn(String mail, String pass) {
+    auth.signInWithEmailAndPassword(email: mail, password: pass).then((user) {
+      if (user.uid.isNotEmpty) {
+        prefs.setBool("loggedin", true);
+        Navigator.pushReplacementNamed(context, "/dashboard");
+      } else
+        key.currentState.showSnackBar(
+            SnackBar(content: Text("Invalid Credentials. Try again!!!")));
+    });
   }
 }

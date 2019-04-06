@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import '../icons/bottom_nav_icon.dart';
 import 'package:bmnav/bmnav.dart';
 import 'scan_page.dart';
+import 'plan_page.dart';
+import 'community_page.dart';
+import 'history_page.dart';
 
 class DashBoard extends StatefulWidget {
   @override
@@ -9,14 +12,18 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
+  int index = 0;
+  List<Widget> pages;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: Drawer(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              UserAccountsDrawerHeader(accountName: null, accountEmail: null),
               GestureDetector(
                 onTap: null,
                 child: ListTile(
@@ -68,8 +75,13 @@ class _DashBoardState extends State<DashBoard> {
           centerTitle: true,
           backgroundColor: Color.fromRGBO(0, 109, 179, 100),
         ),
-        body: ScanPage(),
+        body: pages[index],
         bottomNavigationBar: BottomNav(
+          index: index,
+          onTap: (i) {
+            index = i;
+            setState(() {});
+          },
           items: <BottomNavItem>[
             BottomNavItem(
               BottomNavIcon.home,
@@ -80,5 +92,15 @@ class _DashBoardState extends State<DashBoard> {
             BottomNavItem(BottomNavIcon.plan, label: "PLAN"),
           ],
         ));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    pages = List();
+    pages.add(PlanPage());
+    pages.add(CommunityPage());
+    pages.add(ScanPage());
+    pages.add(HistoryPage());
   }
 }

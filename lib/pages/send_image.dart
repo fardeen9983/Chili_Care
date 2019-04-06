@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:photos_library/photos_library.dart';
 import 'package:path/path.dart';
 
 class SendImage extends StatefulWidget {
@@ -17,6 +18,12 @@ class SendImage extends StatefulWidget {
 
 class _SendImageState extends State<SendImage> {
   final GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
+  FirebaseUser user;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +66,10 @@ class _SendImageState extends State<SendImage> {
   }
 
   void sendImage() async {
+    user = await FirebaseAuth.instance.currentUser();
+
     var stream =
-        new http.ByteStream(DelegatingStream.typed(widget.file.openRead()));
+    new http.ByteStream(DelegatingStream.typed(widget.file.openRead()));
     var length = await widget.file.length();
 
     var uri = Uri.parse(
@@ -70,7 +79,7 @@ class _SendImageState extends State<SendImage> {
     var multipartFile = new http.MultipartFile('file', stream, length,
         filename: basename(widget.file.path));
     //contentType: new MediaType('image', 'png'));
-    request.fields["UID"] = "user-id";
+    request.fields["UID"] = user.uid;
     request.files.add(multipartFile);
     var response = await request.send();
     print(response.statusCode);
