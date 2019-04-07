@@ -27,60 +27,63 @@ class _DashBoardState extends State<DashBoard> {
         loaded
             ? Scaffold(
             drawer: Drawer(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  UserAccountsDrawerHeader(
-                      accountName: null, accountEmail: null),
-                  GestureDetector(
-                    onTap: null,
-                    child: ListTile(
-                      leading: Icon(BottomNavIcon.plan),
-                      title: Text(
-                        translations.text("plan"),
-                        style: TextStyle(fontSize: 22.0),
+              child: Container(
+                color: Color.fromRGBO(85, 155, 229, 100),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    UserAccountsDrawerHeader(
+                        currentAccountPicture: null,
+                        decoration: BoxDecoration(
+                            color: Color.fromRGBO(85, 155, 229, 100)),
+                        accountName: null,
+                        accountEmail: null),
+                    GestureDetector(
+                      onTap: null,
+                      child: ListTile(
+                        leading: Icon(BottomNavIcon.plan),
+                        title: Text(
+                          translations.text("plan"),
+                          style: TextStyle(fontSize: 22.0),
+                        ),
                       ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: null,
-                    child: ListTile(
-                      leading: Icon(BottomNavIcon.scan),
-                      title: Text(
-                        AppTranslations.of(context).text("scan"),
-                        style: TextStyle(fontSize: 22.0),
+                    GestureDetector(
+                      onTap: null,
+                      child: ListTile(
+                        leading: Icon(BottomNavIcon.scan),
+                        title: Text(
+                          translations.text("scan"),
+                          style: TextStyle(fontSize: 22.0),
+                        ),
                       ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: null,
-                    child: ListTile(
-                      leading: Icon(BottomNavIcon.guide),
-                      title: Text(
-                        AppTranslations.of(context).text("guide"),
-                        style: TextStyle(fontSize: 22.0),
+                    GestureDetector(
+                      onTap: null,
+                      child: ListTile(
+                        leading: Icon(BottomNavIcon.guide),
+                        title: Text(
+                          translations.text("guide"),
+                          style: TextStyle(fontSize: 22.0),
+                        ),
                       ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: null,
-                    child: ListTile(
-                      leading: Icon(BottomNavIcon.home),
-                      title: Text(
-                        AppTranslations.of(context).text("history"),
-                        style: TextStyle(fontSize: 22.0),
+                    GestureDetector(
+                      onTap: null,
+                      child: ListTile(
+                        leading: Icon(BottomNavIcon.home),
+                        title: Text(
+                          translations.text("history"),
+                          style: TextStyle(fontSize: 22.0),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             appBar: AppBar(
-              title: Text(
-                translations.text("home"),
-                style: TextStyle(fontSize: 18.0),
-              ),
               centerTitle: true,
               backgroundColor: Color.fromRGBO(0, 109, 179, 100),
               actions: <Widget>[
@@ -127,8 +130,7 @@ class _DashBoardState extends State<DashBoard> {
     SharedPreferences.getInstance().then((prefs) async {
       this.prefs = prefs;
       locale = prefs.getString("locale");
-      if (locale == null)
-        locale = "en";
+      if (locale == null) locale = "en";
       translations = await AppTranslations.load(Locale(locale, ""));
       loaded = true;
       setState(() {});

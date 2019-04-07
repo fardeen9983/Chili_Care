@@ -9,8 +9,7 @@ class WebViewExample extends StatefulWidget {
 class _WebViewExampleState extends State<WebViewExample> {
   TextEditingController controller = TextEditingController();
   FlutterWebviewPlugin flutterWebviewPlugin = FlutterWebviewPlugin();
-  var urlString =
-      "https://bot.dialogflow.com/d16180b5-88af-4a56-902c-90631f51a9f0";
+  var urlString = "https://bot.dialogflow.com/d16180b5-88af-4a56-902c-90631f51a9f0";
 
   launchUrl() {
     setState(() {

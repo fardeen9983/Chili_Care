@@ -22,5 +22,12 @@
   "sensor1": "Temprature Unfavorable: The range should be 25-35C",
   "sensor2": "Humidity Conditions unfavorable. Increase/Decrease water quantity to bring in range 45-70",
   "sensor3": "Light is not sufficient or too much. Bring the values between 800-3000",
-  "sensor4": "All conditions are favorable! Your chili is blooming!"
+  "sensor4": "All conditions are favorable! Your chili is blooming!",
+  "state1": "Bacterial Leaf Spot is the most common of the bacterial diseases of chilli in India. Raising plants from ground level. Apply sulphur on leaves. 2 minutes in a 10% chlorine bleach. removing any infected plants.",
+  "state2": "White rot is another prevalent disease, which makes white spots on fruit, resulting a very weak production. The most obvious sign of root rot is a plant that wilts even when the soil is moist. Do not move cull bulbs, litter, and soil from infested to non-infested fields.to plant only clean stock from known origins that have no history of white rot.",
+  "state3": "In leaf curl the leaves turn in a peculiar way, decreasing the yeild of crop and weakening of the stem. Spray the plant thoroughly with the diluted copper fungicide at the leaf fall stage. Pour 2.5 fluid ounces of concentrated insecticidal soap. Avoid treating the plant when temperatures are above 90 degrees Fahrenheit.",
+  "state4": "Fruit rot are seen on fruits, wherein a part of chili is totally browned out and dried. Seed treatment with Thiram or Captan 4g/kg is found to be -effective in eliminating the seed-borne inoculum. Good control of the disease has been reported by three sprayings with Ziram O. 25% Captan 0.2% or miltox 0.2%. Chemicals like wettable sulphur 0.2%, copper oxychloride 0.25% and Zineb 0.15% not only reduced the disease incidence but also increased the yield of fruits.",
+  "state5": "Dieback is one of the most deadly disease, causing the whole plant to be weakened out and start drying. Seed treatment with Thiram or Captan 4g/kg is found to be -effective in eliminating the seed-borne inoculum. Good control of the disease has been reported by three sprayings with Ziram O. 25% Captan 0.2% or miltox 0.2%. Chemicals like wettable sulphur 0.2%, copper oxychloride 0.25% and Zineb 0.15% not only reduced the disease incidence but also increased the yield of fruits.",
+  "state0": "",
+  "state6": ""
 }

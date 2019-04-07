@@ -48,6 +48,7 @@ class _SettingsPageState extends State<SettingsPage> {
   _buildLanguageItem(String language) {
     return InkWell(
       onTap: () {
+        prefs.setString("locale", languagesMap[language]);
         application.onLocaleChanged(Locale(languagesMap[language]));
       },
       child: Center(

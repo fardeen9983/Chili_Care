@@ -4,9 +4,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:photos_library/photos_library.dart';
 import 'package:path/path.dart';
 import 'status_page.dart';
+import 'package:path_provider/path_provider.dart';
+
 class SendImage extends StatefulWidget {
   final File file;
 
@@ -24,48 +25,49 @@ class _SendImageState extends State<SendImage> {
   @override
   void initState() {
     super.initState();
-    pre = Container(
-      color: Color.fromRGBO(0, 109, 179, 100),
-      alignment: Alignment.center,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.file(
-              widget.file,
-//              width: MediaQuery.of(context).size.width * 0.75,
-//              height: MediaQuery.of(context).size.height * 0.60,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: RaisedButton(
-              onPressed: sendImage,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "Done",
-                  style: TextStyle(fontSize: 32.0),
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-    child = pre;
   }
 
   @override
   Widget build(BuildContext context) {
     return Builder(
-      builder: (context) => Scaffold(key: key, body: child),
+      builder: (context) =>
+          Scaffold(
+              key: key,
+              body: Container(
+                color: Color.fromRGBO(0, 109, 179, 100),
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.file(
+                        widget.file,
+                        width: 500,
+                        height: 500,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RaisedButton(
+                        onPressed: () => sendImage(context),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Done",
+                            style: TextStyle(fontSize: 32.0),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              )),
     );
   }
 
-  void sendImage() async {
+  void sendImage(BuildContext context) async {
     user = await FirebaseAuth.instance.currentUser();
 
     var stream =
@@ -73,7 +75,7 @@ class _SendImageState extends State<SendImage> {
     var length = await widget.file.length();
 
     var uri = Uri.parse(
-        "https://www.floydlabs.com/serve/shikhar10000/projects/plantdisease");
+        "https://www.floydlabs.com/serve/shikhar10000/projects/hack_thon_test");
 
     var request = new http.MultipartRequest("POST", uri);
     var multipartFile = new http.MultipartFile('file', stream, length,
@@ -83,12 +85,20 @@ class _SendImageState extends State<SendImage> {
     request.files.add(multipartFile);
     var response = await request.send();
     print(response.statusCode);
-    response.stream.transform(utf8.decoder).listen((value) {
-      Map<String, dynamic> map = json.decode(value);
-      setState(() {
-        child =
-            StatusPage(text: map["fname"], state: int.parse(map["answer"]),);
-      });
+    Map<String, dynamic> map;
+    response.stream.transform(utf8.decoder).listen((value) async {
+      map = json.decode(value);
+      var dir = await getApplicationDocumentsDirectory();
+
+      File file = await widget.file.copy("${dir.path}/${map["fname"]}");
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  StatusPage(
+                      state: int.parse(map["answer"]),
+                      text: map["fname"],
+                      invalid: map["invalid"])));
     });
   }
 }

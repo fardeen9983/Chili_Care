@@ -44,7 +44,7 @@ class _PlanPageState extends State<PlanPage> {
             return Text("Error");
         },
         stream: Firestore.instance
-            .document("user/user-id/stats/SensorData")
+            .document("user/${user.uid}/stats/SensorData")
             .snapshots())
         : CircularProgressIndicator();
   }

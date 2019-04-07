@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'pages/dashboard.dart';
 import 'pages/login_page.dart';
 import 'pages/setting_page.dart';
@@ -6,7 +7,11 @@ import 'localization/app_translation_delegate.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'application.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-void main() => runApp(MyApp());
+
+void main() {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -46,8 +51,8 @@ class MyAppState extends State<MyApp> {
 
   void onLocaleChange(Locale locale) {
     setState(() {
-      if (prefs != null)
-        prefs.setString("locale", locale.languageCode);
+//      if (prefs != null)
+//        prefs.setString("locale", locale.languageCode);
       _newLocaleDelegate = AppTranslationsDelegate(newLocale: locale);
     });
   }

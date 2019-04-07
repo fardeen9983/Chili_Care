@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import '../localization/app_translations.dart';
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  AppTranslations translations;
   SharedPreferences prefs;
+  String locale = "en";
+  bool loaded = false;
   FirebaseAuth auth;
   TextEditingController pass, mail;
   final GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
@@ -19,8 +22,13 @@ class _LoginPageState extends State<LoginPage> {
     pass = TextEditingController();
     mail = TextEditingController();
     auth = FirebaseAuth.instance;
-    SharedPreferences.getInstance().then((prefs) {
+    SharedPreferences.getInstance().then((prefs) async {
       this.prefs = prefs;
+      locale = prefs.getString("locale");
+      if (locale == null) locale = "en";
+      translations = await AppTranslations.load(Locale(locale, ""));
+      loaded = true;
+      setState(() {});
     });
   }
 
@@ -32,15 +40,19 @@ class _LoginPageState extends State<LoginPage> {
         color: Color.fromRGBO(207, 232, 222, 100),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18.0),
-          child: ListView(
+          child: loaded ? ListView(
             padding: EdgeInsets.all(0.0),
             children: <Widget>[
               Image.asset("assets/images/logo.png"),
               Text(
-                "Chilli Care",
+                translations.text("chillicare"),
                 style: TextStyle(
+                  shadows: <Shadow>[
+                    Shadow(offset: Offset(-3.0, -2.0)),
+                  ],
                   fontSize: 48.0,
-                  color: Colors.red,
+                  fontFamily: "CopperPlateGothic",
+                  color: Colors.white,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -57,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: TextField(
                           controller: mail,
                           decoration: InputDecoration(
-                              labelText: "Email id",
+                              labelText: translations.text("emailid"),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8.0))),
                         ),
@@ -67,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: TextField(
                           controller: pass,
                           decoration: InputDecoration(
-                              labelText: "Password",
+                              labelText: translations.text("password"),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8.0))),
                         ),
@@ -80,13 +92,13 @@ class _LoginPageState extends State<LoginPage> {
                           children: <Widget>[
                             GestureDetector(
                               child: Text(
-                                "Sign Up",
+                                translations.text("signup"),
                                 textAlign: TextAlign.center,
                               ),
                             ),
                             GestureDetector(
                               child: Text(
-                                "Forgot Password",
+                                translations.text("forgotpassword"),
                                 textAlign: TextAlign.center,
                               ),
                             )
@@ -116,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24.0, vertical: 8.0),
                       child: Text(
-                        "Log In",
+                        translations.text("login"),
                         style: TextStyle(fontSize: 24.0),
                       ),
                     ),
@@ -124,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               )
             ],
-          ),
+          ) : Center(child: CircularProgressIndicator(),),
         ),
       ),
     );

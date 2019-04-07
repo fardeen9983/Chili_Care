@@ -7,11 +7,10 @@ import 'package:flutter/services.dart' show rootBundle;
 
 class AppTranslations {
   Locale locale;
-  static Map<dynamic, dynamic> _localisedValues;
+  static Map<dynamic, dynamic> _localisedValues = null;
 
   AppTranslations(Locale locale) {
     this.locale = locale;
-    _localisedValues = null;
   }
 
   static AppTranslations of(BuildContext context) {
