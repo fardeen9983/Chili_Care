@@ -33,21 +33,22 @@ class _StatusPageState extends State<StatusPage> {
           url = data["FileUrl"] + widget.text;
           return Scaffold(
             body: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: widget.state != 0 ? Image(
-                      image: NetworkImage(url),
-                    ) : Text(""),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: fetchStatus(widget.state),
-                  )
-                ],
+              child: Center(
+                child: ListView(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: widget.state != 0 ? Image(
+                        image: NetworkImage(url,),
+                        width: 500, height: 500,
+                      ) : Text(""),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: fetchStatus(widget.state),
+                    )
+                  ],
+                ),
               ),
             ),
           );
@@ -98,14 +99,14 @@ class _StatusPageState extends State<StatusPage> {
         break;
       case 0:
         res =
-        "Plant is Healthy \nWonderfull NO disease has been detected. Continue to provide adequate water and humidity</li> <li>use sensors to check if plant is getting adequate water and temprature.</li></ul>";
+            translations.text("state0");
         break;
       case 6:
-        res = "Invalid image\n Object detected : ${widget.invalid}";
+        res = "Invalid image";
     }
     return Text(
       "State : " + res,
-      style: TextStyle(fontSize: 24.0),
+      style: TextStyle(fontSize: 18.0),
       textAlign: TextAlign.center,
     );
   }

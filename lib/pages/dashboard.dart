@@ -5,6 +5,7 @@ import 'scan_page.dart';
 import 'plan_page.dart';
 import 'community_page.dart';
 import 'history_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../localization/app_translations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -75,6 +76,20 @@ class _DashBoardState extends State<DashBoard> {
                         leading: Icon(BottomNavIcon.home),
                         title: Text(
                           translations.text("history"),
+                          style: TextStyle(fontSize: 22.0),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        prefs.setBool("loggedin", false);
+                        FirebaseAuth.instance.signOut();
+                        Navigator.pushReplacementNamed(context, "/login");
+                      },
+                      child: ListTile(
+                        leading: Icon(BottomNavIcon.home),
+                        title: Text(
+                          "Log Out",
                           style: TextStyle(fontSize: 22.0),
                         ),
                       ),

@@ -41,6 +41,7 @@ dependencies:
   flutter_speed_dial: 1.1.1
   flutter_dialogflow: 0.1.2
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

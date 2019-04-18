@@ -7,7 +7,7 @@ import 'localization/app_translation_delegate.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'application.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'pages/splash_page.dart';
 void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(MyApp());
@@ -33,6 +33,7 @@ class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       supportedLocales: application.supportedLocales(),
       localizationsDelegates: [
         _newLocaleDelegate,
@@ -41,8 +42,9 @@ class MyAppState extends State<MyApp> {
         GlobalWidgetsLocalizations.delegate
       ],
       title: 'Flutter Demo',
-      home: LoginPage(),
+      home: SplashPage(),
       routes: {
+        "/login": (context) => LoginPage(),
         "/dashboard": (context) => DashBoard(),
         "/settings": (context) => SettingsPage()
       },

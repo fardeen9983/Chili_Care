@@ -25,45 +25,53 @@ class _SendImageState extends State<SendImage> {
   @override
   void initState() {
     super.initState();
+    pre = Container(
+      color: Color.fromRGBO(0, 109, 179, 100),
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.file(
+              widget.file,
+              width: 500,
+              height: 500,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: RaisedButton(
+              onPressed: () {
+                setState(() {
+                  child = Container(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                });
+                sendImage(key.currentContext);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Done",
+                  style: TextStyle(fontSize: 32.0),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+    child = pre;
   }
 
   @override
   Widget build(BuildContext context) {
     return Builder(
-      builder: (context) =>
-          Scaffold(
-              key: key,
-              body: Container(
-                color: Color.fromRGBO(0, 109, 179, 100),
-                alignment: Alignment.center,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.file(
-                        widget.file,
-                        width: 500,
-                        height: 500,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: RaisedButton(
-                        onPressed: () => sendImage(context),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Done",
-                            style: TextStyle(fontSize: 32.0),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              )),
+      builder: (context) => Scaffold(key: key, body: child),
     );
   }
 

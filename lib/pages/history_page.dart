@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'status_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 class HistoryPage extends StatefulWidget {
   @override
@@ -10,6 +14,9 @@ class HistoryPage extends StatefulWidget {
 
 class _HistoryPageState extends State<HistoryPage> {
   FirebaseUser user;
+  SharedPreferences prefs;
+  String fileUrl;
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -109,5 +116,13 @@ class _HistoryPageState extends State<HistoryPage> {
   void initState() {
     super.initState();
     FirebaseAuth.instance.currentUser().then((user) => this.user = user);
+    SharedPreferences.getInstance().then((prefs) {
+      this.prefs = prefs;
+      fileUrl = prefs.getString("fileUrl");
+      if (fileUrl == null) {
+        fileUrl = "";
+      }
+    });
   }
+
 }
