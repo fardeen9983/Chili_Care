@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gih_app/widget/history_image.dart';
 import 'status_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
@@ -46,54 +48,52 @@ class _HistoryPageState extends State<HistoryPage> {
                     });
                     images[key] = dat;
                   });
-                  //print(images);
+                  // print(images);
                   return ListView.builder(
                     itemCount: images.length,
-                    itemBuilder: (context, index) =>
-                        Container(
-                          child: ExpansionTile(
-                            title: Text(images.keys.toList()[index]),
-                            children: <Widget>[
-                              Container(
-                                height: double.maxFinite,
-                                child: GridView.builder(
-                                    gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3),
-                                    itemCount: images[images.keys
-                                        .toList()[index]]
-                                        .length,
-                                    itemBuilder: (context, i) =>
-                                        GestureDetector(
-                                            onTap: () =>
-                                                Navigator.push(
+                    itemBuilder: (context, index) => Container(
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                                vertical: 18.0, horizontal: 5.0),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(images.keys.toList()[index]),
+                                  Container(
+                                    height: double.maxFinite,
+                                    child: GridView.builder(
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 3),
+                                        itemCount:
+                                            images[images.keys.toList()[index]]
+                                                .length,
+                                        itemBuilder: (context, i) =>
+                                            GestureDetector(
+                                                onTap: () => Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            StatusPage(
-                                                                state: int
-                                                                    .parse(
-                                                                    images[
-                                                                    images.keys
-                                                                        .toList()[index]]
-                                                                    [i]["detected"]),
-                                                                text:
-                                                                images[images
-                                                                    .keys
-                                                                    .toList()[index]]
+                                                        builder: (context) => StatusPage(
+                                                            state: int.parse(images[
+                                                                    images.keys.toList()[index]][i]
+                                                                ["detected"]),
+                                                            text: images[images.keys.toList()[index]]
                                                                 [i]["fname"],
-                                                                invalid: ""))),
-                                            child: Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child: Image(
-                                                  image: NetworkImage(fileUrl +
-                                                      images[images.keys
-                                                          .toList()[index]]
-                                                      [i]["iname"]),
-                                                )))),
-                              )
-                            ],
-//                                  ListView.builder(
+                                                            invalid: ""))),
+                                                child: Padding(
+                                                    padding: EdgeInsets.all(8.0),
+                                                    child: Image(
+                                                      image: NetworkImage(fileUrl +
+                                                          images[images.keys
+                                                                      .toList()[
+                                                                  index]][i]
+                                                              ["iname"]),
+                                                    )))),
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                   );
@@ -101,7 +101,7 @@ class _HistoryPageState extends State<HistoryPage> {
                 }
               },
               stream:
-              Firestore.instance.document("user/${user.uid}").snapshots(),
+                  Firestore.instance.document("user/${user.uid}").snapshots(),
             );
           } else {
             return Container(
@@ -115,7 +115,10 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   void initState() {
     super.initState();
-    FirebaseAuth.instance.currentUser().then((user) => this.user = user);
+    FirebaseAuth.instance.currentUser().then((user) {
+      this.user = user;
+      print(user.uid);
+    });
     SharedPreferences.getInstance().then((prefs) {
       this.prefs = prefs;
       fileUrl = prefs.getString("fileUrl");
@@ -124,5 +127,4 @@ class _HistoryPageState extends State<HistoryPage> {
       }
     });
   }
-
 }
